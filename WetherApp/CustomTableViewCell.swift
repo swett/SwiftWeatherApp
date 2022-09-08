@@ -98,13 +98,16 @@ class CustomTableViewCell: UITableViewCell {
         switch convertedTemp {
         case -100.0...12.0:
             containerView.backgroundColor = coldColor
+            contentView.backgroundColor = coldColor
         case 12.01...22.0:
             containerView.backgroundColor = defColor
+            contentView.backgroundColor = defColor
         case 22.01...55.0:
             containerView.backgroundColor = hotColor
             contentView.backgroundColor = hotColor
         default:
             containerView.backgroundColor = hotColor
+            contentView.backgroundColor = hotColor
         }
         
         

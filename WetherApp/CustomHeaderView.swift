@@ -6,7 +6,6 @@
 //
 
 import UIKit
-
 class CustomHeaderView: UITableViewHeaderFooterView {
 
     var containerView: UIView!
@@ -19,16 +18,37 @@ class CustomHeaderView: UITableViewHeaderFooterView {
     var coldColor = UIColor(named: "ColdColor")
     var defColor = UIColor(named: "DefColor")
     var hotColor = UIColor(named: "HotColor")
+    var isWeatherInstalled = false
+    var weatherEffects = WeatherEffects()
+    override func layoutSubviews() {
+        super.layoutSubviews()
+//        if !isWeatherInstalled && containerView.frame.width > 0 {
+//            isWeatherInstalled = true
+//            weatherEffects.snow(velocity: 10, view: self.containerView)
+//            weatherEffects.cloudViews(photoName: AppData.shared.photoArray, view: self.containerView)
+//            let path =  weatherEffects.genrateLightningPath(startingFrom: CGPoint(x: 200, y: 290))
+//            weatherEffects.lightningStrike(throughPath: path, view: self.containerView)
+//            weatherEffects.rain(velocity: 20, view: self.containerView)
+//            contentView.bringSubviewToFront(containerView)
+//        }
+
+        
+        
+    }
+    
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         loadData(city: "Kharkov")
         containerView = UIView().then({ containerView in
             contentView.addSubview(containerView)
+            containerView.backgroundColor = .clear
             containerView.snp.makeConstraints { make in
                 make.top.equalToSuperview()
                 make.bottom.equalToSuperview()
                 make.left.right.equalToSuperview()
                 make.height.equalTo(300)
+                make.width.equalToSuperview()
             }
         })
         
@@ -96,9 +116,10 @@ class CustomHeaderView: UITableViewHeaderFooterView {
                 
             }
         })
-    
+        
+      
     }
-    
+     
     
     
     
@@ -116,6 +137,7 @@ class CustomHeaderView: UITableViewHeaderFooterView {
             self.currentTime.text = stringToDate
             self.weatherDescription.text = weather.weather[0].description
             self.changeBackgroundColor(temp: weather.main.temp)
+            self.weatherAnimation(id: weather.weather[0].id)
             
         })
     }
@@ -138,10 +160,50 @@ class CustomHeaderView: UITableViewHeaderFooterView {
             containerView.backgroundColor = hotColor
             contentView.backgroundColor = hotColor
         }
-        
-        
     }
-    
+    func weatherAnimation(id: Int){
+        switch id {
+            case 200...202, 230...232:
+            weatherEffects.cloudViews(photoName: AppData.shared.photoArray, view: self.containerView)
+            weatherEffects.rain(velocity: 20, view: self.containerView)
+            let path =  weatherEffects.genrateLightningPath(startingFrom: CGPoint(x: 200, y: 290))
+            weatherEffects.lightningStrike(throughPath: path, view: self.containerView)
+            contentView.bringSubviewToFront(containerView)
+
+            case 210...229:
+                print("bolt")
+            let path =  weatherEffects.genrateLightningPath(startingFrom: CGPoint(x: 200, y: 290))
+            weatherEffects.lightningStrike(throughPath: path, view: self.containerView)
+            contentView.bringSubviewToFront(containerView)
+
+            case 300...321:
+                print("drizzle")
+            case 500...501:
+            weatherEffects.rain(velocity: 300, view: self.containerView)
+            contentView.bringSubviewToFront(containerView)
+
+            case 502...531:
+            weatherEffects.rain(velocity: 500, view: self.containerView)
+            contentView.bringSubviewToFront(containerView)
+
+            case 600...622:
+            weatherEffects.snow(velocity: 40, view: self.containerView)
+            contentView.bringSubviewToFront(containerView)
+
+            case 701...781:
+                print("fog")
+            case 800:
+            weatherEffects.sun(view: self.containerView)
+            contentView.bringSubviewToFront(containerView)
+
+            case 801...804:
+            weatherEffects.sun(view: self.containerView)
+            contentView.bringSubviewToFront(containerView)
+
+            default:
+                print("vse huyna nihuya s serva ne prishlo")
+            }
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

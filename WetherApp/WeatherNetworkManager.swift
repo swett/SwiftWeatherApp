@@ -73,6 +73,7 @@ struct WeatherModel: Codable {
     let dt: Int
     let timezone: Int?
     let dt_txt: String?
+    var capital: Bool?
 }
 
 

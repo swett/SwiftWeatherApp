@@ -7,27 +7,27 @@
 
 import UIKit
 
-class CloudView {
+class RainAndSnowView {
 
-    static func get(with image: UIImage) -> CAEmitterLayer{
+    static func get(with image: UIImage, velocity: Float) -> CAEmitterLayer{
         let emitter = CAEmitterLayer()
         emitter.emitterShape = .line
-        emitter.emitterCells = generateEmitterCells(with: image)
+        emitter.emitterCells = generateEmitterCells(with: image, velocity: velocity)
         
         return emitter
     }
-   static func generateEmitterCells(with image: UIImage) -> [CAEmitterCell] {
+    static func generateEmitterCells(with image: UIImage, velocity: Float) -> [CAEmitterCell] {
         var cells = [CAEmitterCell]()
 
         let cell = CAEmitterCell()
        cell.contents = image.cgImage
-        cell.birthRate = 1
-        cell.lifetime = 50
-        cell.velocity = 25
-        cell.velocityRange = 60
+        cell.birthRate = 7
+        cell.lifetime = 5
+        cell.velocity = CGFloat(velocity)
+        cell.velocityRange = 30
         cell.emissionLongitude = .pi
         cell.emissionRange = .pi/4
-        cell.scale = 0.2
+        cell.scale = 0.1
         cells.append(cell)
         
         

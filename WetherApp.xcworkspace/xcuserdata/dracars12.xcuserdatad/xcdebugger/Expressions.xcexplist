@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in ViewController.cloudViews(photoName:):ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CustomHeaderView.snow(velocity:):CustomHeaderView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "emmiter.emitterPosition">
+            </PersistentString>
+            <PersistentString
+               value = "contentView.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

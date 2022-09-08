@@ -9,6 +9,8 @@ import UIKit
 import Then
 import SnapKit
 import SDWebImage
+//import SpriteKit
+
 class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
     
     
@@ -18,7 +20,6 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
     var tempText: UILabel!
     var currentTime: UILabel!
     var weatherDescription: UILabel!
-    var rainLayer: CloudView!
     var photoView: UIImageView!
     var photoView2: UIImageView!
     var maskView: UIImageView!
@@ -31,7 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
     var defColor = UIColor(named: "DefColor")
     var hotColor = UIColor(named: "HotColor")
     var refreshControl = UIRefreshControl()
-    
+//    var skView: SKView!
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -48,7 +49,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
         mask.contents =  [ UIImage(named: "cloud4")?.cgImage] as Any
 
 //        cloudViews(photoName: AppData.shared.photoArray)
-//        rain()
+        
         
         tableview = UITableView(frame: CGRect(), style: .plain).then({ tableview in
             view.addSubview(tableview)
@@ -65,14 +66,16 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
                 
             }
         })
-       
+        
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
            refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
            tableview.addSubview(refreshControl)
-        
+
         AppData.shared.loadData {
             self.tableview.reloadData()
             self.changeBackgroundColor(temp: AppData.shared.cityWeatherArray[0].main.temp)
+//            self.cloudViews(photoName: AppData.shared.photoArray)
+//            self.weatherAnimation(id: AppData.shared.cityWeatherArray[0].weather[0].id)
         }
         
     }
@@ -99,7 +102,6 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 //            self.currentTime.text = stringToDate
 //            self.weatherDescription.text = weather.weather[0].description
             self.changeBackgroundColor(temp: weather.main.temp)
-            
         })
     }
     
@@ -124,99 +126,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
         
         
     }
-    
-    func runningCloud(view: UIImageView, photo: Int) {
-        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
-//            view.snp.updateConstraints { make in
-//                make.left.equalTo(200)
-//            }
-            if photo == 0 {
-                view.center.x += 270
-            }
-            if photo == 1 {
-                    view.center.x += 210
-            }
-            if photo == 2 {
-                view.center.x += 200
-            }
-
-            
-        } completion: { com in
-            self.animateClouds(view: view, photo: photo)
-        }
-        
-       
-    }
-    
-    func animateClouds(view: UIImageView, photo: Int) {
-        UIView.animate(withDuration: 2, delay: 0, options: .curveEaseOut) {
-            view.alpha = 1
-            if photo == 0 {
-                
-                view.center.x = 90
-                view.frame.origin.x += 40
-            } else if photo == 1 {
-                view.center.x = 10
-                view.frame.origin.x += 40
-                
-            } else {
-                view.center.x = 70
-                view.frame.origin.x += 140
-                
-            }
-//                self.view.layoutIfNeeded()
-        } completion: { com in
-            if com {
-                if photo == 0 {
-                    self.runningCloud(view: view, photo: photo)
-                }
-                if photo == 1 {
-                    self.runningCloud(view: view, photo: photo)
-                }
-                if photo == 2 {
-                    self.runningCloud(view: view, photo: photo)
-                }
-                
-            }
-            
-        }
-    }
-    
-    func cloudViews (photoName: [String]){
-        
-        for photo in 0..<photoName.count {
-            let imageView = UIImageViewWithMask().then({ photoView in
-                view.addSubview(photoView)
-                photoView.maskImage = UIImage(named: "cloud4")
-                photoView.image = UIImage(named: photoName[photo])
-                photoView.alpha = 0
-                
-//                photoView.layer.masksToBounds = true
-//
-                
-                if photo == 0 {
-                    photoView.frame = CGRect(x: 60, y: 260, width: 180, height: 145)
-                } else if photo == 1 {
-                    photoView.frame = CGRect(x: 10, y: 280, width: 250, height: 200)
-                } else {
-                    photoView.frame = CGRect(x: 120, y: 280, width: 250, height: 200)
-                }
-            })
-            print(photo)
-            animateClouds(view: imageView, photo: photo)
-
-            self.theImageViews.append(imageView)
-        }
-    }
-    
-    func rain() {
-       
-        let emmiter = CloudView.get(with: UIImage(named: "rainn5")!)
-        emmiter.emitterPosition = CGPoint(x: view.frame.width/2, y: 50)
-        emmiter.emitterSize = CGSize(width: view.frame.width, height: 2)
-        view.layer.addSublayer(emmiter)
-    }
-    
+     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return AppData.shared.cityWeatherArray.count
