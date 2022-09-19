@@ -8,31 +8,56 @@
 import UIKit
 
 class RainAndSnowView {
-
-    static func get(with image: UIImage, velocity: Float) -> CAEmitterLayer{
+    public static let dimension = 4
+    public static var imagesNames = ["kurka12", "den2", "sanya2", "vetal2", "vadim2", "glebas2"]
+   public static func get(with image: UIImage, velocity: Float, isSnowing: Bool) -> CAEmitterLayer{
         let emitter = CAEmitterLayer()
         emitter.emitterShape = .line
-        emitter.emitterCells = generateEmitterCells(with: image, velocity: velocity)
+        emitter.emitterCells = generateEmitterCells(with: image, velocity: velocity, snow: isSnowing)
         
         return emitter
     }
-    static func generateEmitterCells(with image: UIImage, velocity: Float) -> [CAEmitterCell] {
+     public static func generateEmitterCells(with image: UIImage, velocity: Float, snow: Bool) -> [CAEmitterCell] {
         var cells = [CAEmitterCell]()
-
-        let cell = CAEmitterCell()
-       cell.contents = image.cgImage
-        cell.birthRate = 7
-        cell.lifetime = 5
-        cell.velocity = CGFloat(velocity)
-        cell.velocityRange = 30
-        cell.emissionLongitude = .pi
-        cell.emissionRange = .pi/4
-        cell.scale = 0.1
-        cells.append(cell)
+        if snow == true {
+            let cell = CAEmitterCell()
+           cell.contents = image.cgImage
+            cell.birthRate = 7
+            cell.lifetime = 5
+            cell.velocity = CGFloat(velocity)
+            cell.velocityRange = 30
+            cell.emissionLongitude = .pi
+            cell.emissionRange = .pi/4
+            cell.scale = 0.1
+            cells.append(cell)
+        } else {
+            for index in 0..<6 {
+                let cell = CAEmitterCell()
+                cell.contents = nextImage(i: index)
+                cell.birthRate = 2
+                cell.lifetime = 5
+                cell.velocity = CGFloat(velocity)
+                cell.velocityRange = 40
+                cell.emissionLongitude = .pi
+                cell.emissionRange = .pi/4
+                cell.scale = 0.4
+    
+                cells.append(cell)
+                    }
+        }
+        
         
         
         return cells
     }
+    
+   public static func nextImage(i: Int) -> CGImage? {
+//       print(imagesNames[i])
+        let image = UIImage(named:"\(imagesNames[i])")
+            return image?.cgImage
+//       return UIImage(named: "den2")?.cgImage
+        }
+    
     func combine3(_ bg: UIImage, cover: UIImage, size: CGSize) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, true, 1)
         defer {

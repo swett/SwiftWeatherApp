@@ -22,15 +22,15 @@ class CustomHeaderView: UITableViewHeaderFooterView {
     var weatherEffects = WeatherEffects()
     override func layoutSubviews() {
         super.layoutSubviews()
-//        if !isWeatherInstalled && containerView.frame.width > 0 {
-//            isWeatherInstalled = true
+        if !isWeatherInstalled && containerView.frame.width > 0 {
+            isWeatherInstalled = true
 //            weatherEffects.snow(velocity: 10, view: self.containerView)
 //            weatherEffects.cloudViews(photoName: AppData.shared.photoArray, view: self.containerView)
 //            let path =  weatherEffects.genrateLightningPath(startingFrom: CGPoint(x: 200, y: 290))
 //            weatherEffects.lightningStrike(throughPath: path, view: self.containerView)
-//            weatherEffects.rain(velocity: 20, view: self.containerView)
-//            contentView.bringSubviewToFront(containerView)
-//        }
+            weatherEffects.rain(velocity: 20, view: self.containerView, snow: false)
+            contentView.bringSubviewToFront(containerView)
+        }
 
         
         
@@ -137,7 +137,7 @@ class CustomHeaderView: UITableViewHeaderFooterView {
             self.currentTime.text = stringToDate
             self.weatherDescription.text = weather.weather[0].description
             self.changeBackgroundColor(temp: weather.main.temp)
-            self.weatherAnimation(id: weather.weather[0].id)
+//            self.weatherAnimation(id: weather.weather[0].id)
             
         })
     }
@@ -165,7 +165,7 @@ class CustomHeaderView: UITableViewHeaderFooterView {
         switch id {
             case 200...202, 230...232:
             weatherEffects.cloudViews(photoName: AppData.shared.photoArray, view: self.containerView)
-            weatherEffects.rain(velocity: 20, view: self.containerView)
+            weatherEffects.rain(velocity: 20, view: self.containerView, snow: false)
             let path =  weatherEffects.genrateLightningPath(startingFrom: CGPoint(x: 200, y: 290))
             weatherEffects.lightningStrike(throughPath: path, view: self.containerView)
             contentView.bringSubviewToFront(containerView)
@@ -179,15 +179,15 @@ class CustomHeaderView: UITableViewHeaderFooterView {
             case 300...321:
                 print("drizzle")
             case 500...501:
-            weatherEffects.rain(velocity: 300, view: self.containerView)
+            weatherEffects.rain(velocity: 300, view: self.containerView, snow: false)
             contentView.bringSubviewToFront(containerView)
 
             case 502...531:
-            weatherEffects.rain(velocity: 500, view: self.containerView)
+            weatherEffects.rain(velocity: 500, view: self.containerView, snow: false)
             contentView.bringSubviewToFront(containerView)
 
             case 600...622:
-            weatherEffects.snow(velocity: 40, view: self.containerView)
+            weatherEffects.snow(velocity: 40, view: self.containerView, snow: true)
             contentView.bringSubviewToFront(containerView)
 
             case 701...781:

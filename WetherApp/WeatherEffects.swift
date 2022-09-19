@@ -111,17 +111,17 @@ class WeatherEffects: NSObject {
     }
     
     
-    func snow(velocity: Float, view: UIView){
-        let emmiter = RainAndSnowView.get(with: UIImage(named: "snowflake4")!, velocity: velocity)
+    func snow(velocity: Float, view: UIView, snow: Bool){
+        let emmiter = RainAndSnowView.get(with: UIImage(named: "snowflake4")!, velocity: velocity, isSnowing: snow)
         emmiter.emitterPosition = CGPoint(x: view.frame.width/2, y: 10)
         emmiter.emitterSize = CGSize(width: view.frame.width, height: 2)
         view.layer.insertSublayer(emmiter, at: 0)
         
     }
     
-    func rain(velocity: Float, view: UIView) {
+    func rain(velocity: Float, view: UIView, snow: Bool) {
        
-        let emmiter = RainAndSnowView.get(with: UIImage(named: "rainn5")!, velocity: velocity)
+        let emmiter = RainAndSnowView.get(with: UIImage(named: "rainn5")!, velocity: velocity, isSnowing: snow)
         emmiter.emitterPosition = CGPoint(x: 200, y: 60)
         emmiter.emitterSize = CGSize(width: 400, height: 2)
         emmiter.opacity = 0.4
